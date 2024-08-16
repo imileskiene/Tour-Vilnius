@@ -14,13 +14,16 @@ import { deleteReservationById } from "../../services/delete.mjs";
 import toast, { Toaster } from "react-hot-toast";
 import { jwtDecode } from "jwt-decode";
 import { updateStatus } from "../../services/patch.mjs";
+import ReservationEditModal from "./ReservationEditModal";
 // import ResponsiveModal from "../MuiModal";
+// import { useEffect } from "react";
 
 function ReservationCard({ data }) {
   console.log("reservation card", data);
 
   const [reservationStatus, setReservationStatus] = useState(data.status);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  // const [user, setUser] = useState({ name: "", lastname: "" });
   const tokenString = window.localStorage.getItem("token");
   let token = null;
 
@@ -32,6 +35,23 @@ function ReservationCard({ data }) {
   } catch (error) {
     console.error("Token decoding failed:", error);
   }
+
+  // useEffect(() => {
+  //   try {
+  //     if (tokenString) {
+  //       token = jwtDecode(tokenString);
+  //       console.log('token', token);
+
+  //       // Pakeiskite pagal tai, kaip saugomi `firstName` ir `lastName` jūsų `token`
+  //       setUser({
+  //         name: token.name,
+  //         lastname: token.lastname
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.error("Token decoding failed:", error);
+  //   }
+  // }, [tokenString]);
 
   const deleteReservation = async (reservationid) => {
     const result = await deleteReservationById(reservationid);
@@ -64,22 +84,22 @@ function ReservationCard({ data }) {
     try {
       // Pakeičia esamą būseną į priešingą
       const newStatus = !currentStatus;
-      
+
       // Atnaujina būseną serverio pusėje
-      const updatedData = await updateStatus({ reservationid, status: newStatus });
-  
+      const updatedData = await updateStatus({
+        reservationid,
+        status: newStatus,
+      });
+
       // Atnaujina būseną UI pagal serverio atsaką
       if (updatedData) {
         setReservationStatus(updatedData.status);
-      
       }
     } catch (error) {
       console.error("Nepavyko atnaujinti būsenos:", error);
       toast.error("Nepavyko atnaujinti rezervacijos būsenos");
     }
   };
-  
-  
 
   return (
     <>
@@ -91,6 +111,9 @@ function ReservationCard({ data }) {
           <Typography variant="h6" color="textSecondary" gutterBottom>
             {data.name}
           </Typography>
+          {/* <Typography variant="body1" gutterBottom>
+            {" "}Vartotojas: {user.name} {user.lastname}
+          </Typography> */}
           <Typography variant="body1" gutterBottom>
             {" "}
             Ekskursijos data:
@@ -106,6 +129,7 @@ function ReservationCard({ data }) {
             Mokėtina suma:
             {data.total_price}
           </Typography>
+
           <Typography variant="body1" gutterBottom>
             {" "}
             Užsakymo data:
@@ -168,22 +192,23 @@ function ReservationCard({ data }) {
         </Button> */}
 
         <>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
-        <Button
-          onClick={handleDeleteClick}
-          variant="contained"
-          color="error"
-          sx={{ mr: 1 }}
-        >
-          Ištrinti
-        </Button>
-        <Button
+          <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
+            <Button
+              onClick={handleDeleteClick}
+              variant="contained"
+              color="error"
+              sx={{ mr: 1 }}
+            >
+              Ištrinti
+            </Button>
+            {/* <Button
           variant="contained"
           color="warning"
         >
           Redaguoti
-        </Button>
-      </Box>
+        </Button> */}
+            <ReservationEditModal data={data} tourid={data.tourid} />
+          </Box>
         </>
       </Card>
 
@@ -194,7 +219,9 @@ function ReservationCard({ data }) {
       >
         <DialogTitle>Confirm Delete</DialogTitle>
         <DialogContent>
-          <Typography>Ar tikrai norite ištrinti ekskursiją {data.name}?</Typography>
+          <Typography>
+            Ar tikrai norite ištrinti ekskursiją {data.name}?
+          </Typography>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancelDelete} color="primary">

@@ -6,6 +6,7 @@ import { getComments } from "../../services/get.mjs";
 import { postReview } from "../../services/post.mjs";
 import { jwtDecode } from "jwt-decode";
 import AllCommentsList from "./AllCommentsList";
+import toast, { Toaster } from "react-hot-toast";
 // import AverageRating from "./AverageRating";
 
 function UsersFeedback({ tourid }) {
@@ -67,17 +68,22 @@ function UsersFeedback({ tourid }) {
         setComments([...comments, response.data]);
         setComment("");
         setRating(1);
-        alert("Review added successfully");
+        toast("Komentaras sėkmingai pridėtas");
+        setTimeout(()=>{
+          window.location.reload();
+        }, 2000);
+        
       } else {
-        setError("Failed to add review");
+        setError("Klaida keliant komentarą");
       }
     } catch (error) {
-      setError("An error occurred while adding the review");
+      setError("Įvyko klaida kol buvo keliamas komentaras");
       console.error(error);
     }
   };
 
   return (
+    <>
     <Box
       component="form"
       onSubmit={handleSubmit}
@@ -100,7 +106,7 @@ function UsersFeedback({ tourid }) {
         required
       />
       {userid && (
-        <Button variant="contained" color="primary" type="submit">
+        <Button sx={{ width: 200 }} variant="contained" color="primary" type="submit">
           Pateikti
         </Button>
       )}
@@ -110,6 +116,8 @@ function UsersFeedback({ tourid }) {
       <AllCommentsList comments={comments} />
       
     </Box>
+    <Toaster />
+    </>
   );
 }
 

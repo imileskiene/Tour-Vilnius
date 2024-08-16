@@ -13,6 +13,7 @@ export const pg_getAllReservations = async()=>{
     'YYYY-MM-DD HH24:MI:SS'
   ) AS reservation_date,
   reservations.status,
+  tours.tourid,
   tours.name,
   TO_CHAR(
     tour_dates.date,
@@ -146,50 +147,59 @@ export const pg_getReservationByTourId = async (tourid, dateid) => {
 
   export const pg_updateReservationDate = async (reservationid, dateid) => {
     try {
-        // Gaukite dabartinį rezervacijos tour_id
-        const currentReservation = await sql`
-            SELECT tourid
-            FROM reservations
-            WHERE reservationid = ${reservationid}
-        `;
-
-        const tourid = currentReservation[0].tourid;
-
-        // Gaukite maksimalų dalyvių skaičių ir esamą dalyvių skaičių
-        const result = await sql`
-            SELECT
-                (SELECT max_participants FROM tours WHERE tourid = ${tourid}) AS max_participants,
-                SUM(r.number_of_people) + (SELECT number_of_people FROM reservations WHERE reservationid = ${reservationid}) AS participant_count
-            FROM
-                reservations r
-            WHERE
-                r.tourid = ${tourid}
-                AND r.dateid = ${dateid}
-                AND r.reservationid != ${reservationid}
-            GROUP BY r.tourid
-        `;
-
-        const { max_participants, participant_count } = result[0];
-
-        // Patikrinkite, ar dalyvių skaičius neviršija maksimalaus
-        if (participant_count > max_participants) {
-            throw new Error("Neįmanoma atnaujinti datos, nes viršytas maksimalus dalyvių skaičius");
-        }
-
-        // Atnaujinkite rezervacijos datą ir pakeiskite statusą į false, jei buvo true
-        const updatedReservation = await sql`
-            UPDATE reservations
-            SET dateid = ${dateid}, status = false
-            WHERE reservationid = ${reservationid}
-            RETURNING *
-        `;
-
-        return updatedReservation[0]; 
+      // Dabartinis rezervacijos tour_id ir number_of_people
+      const currentReservation = await sql`
+        SELECT tourid, number_of_people
+        FROM reservations
+        WHERE reservationid = ${reservationid}
+      `;
+  
+      if (currentReservation.length === 0) {
+        throw new Error(`Rezervacija su id ${reservationid} nerasta.`);
+      }
+  
+      const { tourid, number_of_people: currentNumberOfPeople } = currentReservation[0];
+  
+      // Maksimalus dalyvių ir esamas dalyvių skaičius
+      const result = await sql`
+        SELECT
+          t.max_participants,
+          COALESCE(SUM(r.number_of_people), 0) AS participant_count
+        FROM tours t
+        LEFT JOIN reservations r ON r.tourid = t.tourid AND r.dateid = ${dateid} AND r.reservationid != ${reservationid}
+        WHERE t.tourid = ${tourid}
+        GROUP BY t.max_participants
+      `;
+  
+      if (result.length === 0) {
+        throw new Error(`Nepavyko gauti rezervacijų informacijos turui su id ${tourid} ir data id ${dateid}.`);
+      }
+  
+      const { max_participants, participant_count } = result[0];
+  
+      // Apskaičiuokite naują dalyvių skaičių
+      const newParticipantCount = participant_count + currentNumberOfPeople;
+  
+      // Patikrinkite, ar dalyvių skaičius neviršija maksimalaus
+      if (newParticipantCount > max_participants) {
+        throw new Error("Neįmanoma atnaujinti datos, nes viršytas maksimalus dalyvių skaičius");
+      }
+  
+      // Atnaujinti rezervacijos datą ir pakeiskite statusą į false, jei buvo true
+      const updatedReservation = await sql`
+        UPDATE reservations
+        SET dateid = ${dateid}, status = false
+        WHERE reservationid = ${reservationid}
+        RETURNING *
+      `;
+  
+      return updatedReservation[0];
     } catch (error) {
-        console.error("Klaida atnaujinant rezervacijos datą:", error);
-        throw error;
+      console.error("Klaida atnaujinant rezervacijos datą:", error);
+      throw error;
     }
-};
+  };
+  
 
   
   

@@ -6,8 +6,8 @@ import { isAdmin, isUser } from "../middlewares/authorizationMiddleware.mjs";
 const router = express.Router();
 
 router.route("/").get(isUser, getAllReservations).post(isUser, createReservation);
-router.route("/:reservationid").get(getReservationById).patch(isAdmin, confirmReservation);
-router.route("/:reservationid/:dateid").put(updateReservation)
+router.route("/:reservationid").get(getReservationById).patch(isAdmin, confirmReservation)
+router.route("/update/:reservationid").patch(updateReservation);
 router.route("/:userid").get(getReservationByUserId);
 router.route("/:tourid/:dateid").get(getReservationByTourIdAndDateId);
 router.route('/:reservationid').delete(deleteReservation);

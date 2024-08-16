@@ -30,8 +30,11 @@ function getDate() {
   return `${year}-${month}-${date} ${hour}:${minutes}:${seconds}`;
 }
 
-const TourReservationForm = () => {
+const TourReservationForm = ({reservation, setOpen}) => {
+  console.log('datafrommodal', reservation);
+  
   const { tourid, reservationid } = useParams();
+  console.log('Tour ID:', tourid);
   const [dateid, setDateid] = useState("");
   const [numberOfPeople, setNumberOfPeople] = useState(0);
   const [dates, setDates] = useState([]);
@@ -49,6 +52,7 @@ const TourReservationForm = () => {
   const token = window.localStorage.getItem("token");
   const decodedToken = token ? jwtDecode(token) : null;
   const userid = decodedToken ? decodedToken.userid : null;
+
 
   useEffect(() => {
     const fetchTour = async () => {

@@ -211,7 +211,10 @@ export const createReservation = async (req, res) => {
 
 export const updateReservation = async(req, res)=>{
 
-  const { reservationid, dateid } = req.params;
+  const { reservationid } = req.params;
+  const{dateid}=req.body
+  console.log(reservationid,dateid);
+  
 
   if (!reservationid || !dateid) {
     return res.status(400).json({ error: 'Trūksta privalomų laukų' });

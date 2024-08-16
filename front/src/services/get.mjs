@@ -42,6 +42,9 @@ export const getTourById = async (tourid) => {
     headers: { Authorization: `Bearer ${token}` },
   };
   try {
+    if (!tourid) {
+      throw new Error("Tour ID is required.");
+  }
     const response = await axios.get(`${tours_url}/${tourid}`, config);
     // console.log(`tour`, response);
     return response.data;

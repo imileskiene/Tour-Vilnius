@@ -208,11 +208,11 @@ const NewTourRegistrationForm = ({ tour={}, setOpen }) => {
         sx={{ mt: 2, maxWidth: 600, mx: "auto", borderRadius: 2, boxShadow: 1, p: 3 }}>
         {tour && tour.categoryname ? (
           <Typography variant="h6" margin="normal">
-            Category: {formData.categoryname}
+            Kategorija: {formData.categoryname}
           </Typography>
         ) : (
           <FormControl fullWidth margin="normal">
-            <InputLabel>Category</InputLabel>
+            <InputLabel>Kategorija</InputLabel>
             <Select
               name="categoryid"
               value={formData.categoryid || ""}
@@ -230,7 +230,7 @@ const NewTourRegistrationForm = ({ tour={}, setOpen }) => {
         )}
         <TextField
           name="name"
-          label="Name"
+          label="Ekskursijos pavadinimas"
           value={formData.name}
           onChange={handleChange}
           fullWidth
@@ -239,7 +239,7 @@ const NewTourRegistrationForm = ({ tour={}, setOpen }) => {
         />
         <TextField
           name="duration"
-          label="Duration"
+          label="Trukmė"
           value={formData.duration}
           onChange={handleChange}
           required
@@ -248,7 +248,7 @@ const NewTourRegistrationForm = ({ tour={}, setOpen }) => {
         />
         <TextField
           name="description"
-          label="Description"
+          label="Aprašymas"
           value={formData.description}
           onChange={handleChange}
           required
@@ -258,7 +258,7 @@ const NewTourRegistrationForm = ({ tour={}, setOpen }) => {
 
         <TextField
           name="max_participants"
-          label="Max Participants"
+          label="Max dalyvių skaičius"
           type="number"
           value={formData.max_participants}
           onChange={handleChange}
@@ -270,7 +270,7 @@ const NewTourRegistrationForm = ({ tour={}, setOpen }) => {
           <>
             <TextField
               name="base_price"
-              label="Base Price"
+              label="Kaina vienam dalyviui"
               type="number"
               value={formData.base_price}
               onChange={handleChange}
@@ -280,7 +280,7 @@ const NewTourRegistrationForm = ({ tour={}, setOpen }) => {
             />
             <TextField
               name="additional_price"
-              label="Additional Price"
+              label="Kaina papildomam dalyviui"
               type="number"
               value={formData.additional_price}
               onChange={handleChange}
@@ -314,7 +314,7 @@ const NewTourRegistrationForm = ({ tour={}, setOpen }) => {
                   </TextField>
                   <TextField
                     name="price"
-                    label="Price"
+                    label="Kaina"
                     type="number"
                     value={price.price}
                     onChange={(e) =>
@@ -337,7 +337,7 @@ const NewTourRegistrationForm = ({ tour={}, setOpen }) => {
               onClick={addPriceField}
               startIcon={<AddIcon />}
             >
-              Add Price
+              Pridėti kainą
             </Button>
           </>
         )}
@@ -347,7 +347,7 @@ const NewTourRegistrationForm = ({ tour={}, setOpen }) => {
             <ListItem key={index}>
               <TextField
                 type="date"
-                label="Date"
+                label="Data"
                 value={date.date}
                 onChange={(e) =>
                   handleDateChange(index, "date", e.target.value)
@@ -357,7 +357,7 @@ const NewTourRegistrationForm = ({ tour={}, setOpen }) => {
               />
               <TextField
                 type="time"
-                label="Time"
+                label="Laikas"
                 value={date.time}
                 onChange={(e) =>
                   handleDateChange(index, "time", e.target.value)
@@ -378,11 +378,11 @@ const NewTourRegistrationForm = ({ tour={}, setOpen }) => {
           onClick={addDateField}
           startIcon={<AddIcon />}
         >
-          Add Date & Time
+          Pridėti datą ir laiką
         </Button>
         <TextField
           name="image"
-          label="Image URL"
+          label="Paveiksliuko URL"
           value={formData.image}
           onChange={handleChange}
           fullWidth
