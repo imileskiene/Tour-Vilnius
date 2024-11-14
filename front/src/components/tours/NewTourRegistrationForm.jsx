@@ -22,7 +22,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 
 const NewTourRegistrationForm = ({ tour={}, setOpen }) => {
-  console.log(`tour`, tour);
+  // console.log(`tour`, tour);
   const [error, setError] = useState("");
   const [categories, setCategories] = useState([]);
   const [types, setTypes] = useState([]);

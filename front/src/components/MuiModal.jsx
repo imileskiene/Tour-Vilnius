@@ -9,7 +9,7 @@ import ModalDialog from "@mui/joy/ModalDialog";
 import NewTourRegistrationForm from "./tours/NewTourRegistrationForm";
 
 export default function ResponsiveModal({ tour }) {
-  console.log(`responsivemodeli`, tour);
+  // console.log(`responsivemodeli`, tour);
   
   //   const data =  useLoaderData()
   const [open, setOpen] = React.useState(false);

@@ -26,7 +26,7 @@ import { AppContext } from "../context/AppContext";
 // import axios from "axios";
 function FullTourList() {
   const data = useLoaderData();
-  console.log(`fulltourlist`, data);
+  // console.log(`fulltourlist`, data);
   const { averageRating, fetchComments } = useContext(AppContext);
   const [tourData, setTourData] = useState(data);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);

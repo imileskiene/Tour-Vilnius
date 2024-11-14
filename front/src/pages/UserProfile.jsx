@@ -7,7 +7,7 @@ import { Button, Card } from "@mui/material";
 
 function UserProfile() {
   const data = useLoaderData();
-  console.log("profile", data);
+  // console.log("profile", data);
 
   const token = jwtDecode(window.localStorage.getItem("token"));
   return (

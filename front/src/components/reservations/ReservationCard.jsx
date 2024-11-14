@@ -14,12 +14,12 @@ import { deleteReservationById } from "../../services/delete.mjs";
 import toast, { Toaster } from "react-hot-toast";
 import { jwtDecode } from "jwt-decode";
 import { updateStatus } from "../../services/patch.mjs";
-import ReservationEditModal from "./ReservationEditModal";
+// import ReservationEditModal from "./ReservationEditModal";
 // import ResponsiveModal from "../MuiModal";
 // import { useEffect } from "react";
 
 function ReservationCard({ data }) {
-  console.log("reservation card", data);
+  // console.log("reservation card", data);
 
   const [reservationStatus, setReservationStatus] = useState(data.status);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -207,7 +207,7 @@ function ReservationCard({ data }) {
         >
           Redaguoti
         </Button> */}
-            <ReservationEditModal data={data} tourid={data.tourid} />
+            {/* <ReservationEditModal data={data} tourid={data.tourid} /> */}
           </Box>
         </>
       </Card>

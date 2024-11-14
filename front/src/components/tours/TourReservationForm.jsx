@@ -31,10 +31,10 @@ function getDate() {
 }
 
 const TourReservationForm = ({reservation, setOpen}) => {
-  console.log('datafrommodal', reservation);
+  // console.log('datafrommodal', reservation);
   
   const { tourid, reservationid } = useParams();
-  console.log('Tour ID:', tourid);
+  // console.log('Tour ID:', tourid);
   const [dateid, setDateid] = useState("");
   const [numberOfPeople, setNumberOfPeople] = useState(0);
   const [dates, setDates] = useState([]);
@@ -140,7 +140,7 @@ const TourReservationForm = ({reservation, setOpen}) => {
 
   useEffect(() => {
     if (tour && (tickets.length > 0 || numberOfPeople > 0)) {
-      console.log("numberOfPeople", numberOfPeople);
+      // console.log("numberOfPeople", numberOfPeople);
 
       calculateTotalPrice();
     }

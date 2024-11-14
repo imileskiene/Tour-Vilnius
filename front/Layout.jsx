@@ -28,7 +28,7 @@ const drawerWidth = 240;
 
 function Layout() {
   const categories = useLoaderData().categories;
-  console.log("layout", categories);
+  // console.log("layout", categories);
 
   const { setToken } = useContext(AppContext);
   const navigate = useNavigate();
@@ -88,13 +88,16 @@ function Layout() {
                 </NavLink>
               </Button>
             </Typography>
-            <Typography variant="h6"
-              component="div"
-              sx={{ flexGrow: 1, display: { xs: "none", sm: "block", marginRight: "480px" } }}>
-              <Box >
-              <CategoriesMenu categories={categories} />
-            </Box>
-            </Typography>
+            <Typography
+  variant="h6"
+  component="div"
+  sx={{ flexGrow: 1, display: { xs: "none", sm: "block" }, marginRight: "0px" }}
+>
+  <Box>
+    <CategoriesMenu categories={categories} />
+  </Box>
+</Typography>
+
             
 
             {token && (

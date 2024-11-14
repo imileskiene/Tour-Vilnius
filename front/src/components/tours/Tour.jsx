@@ -13,7 +13,7 @@ import { AppContext } from "../../context/AppContext";
 import { useEffect } from "react";
 function Tour({ tour }) {
   const { averageRating, fetchComments } = useContext(AppContext);
-  console.log(`tour kortele`, tour);
+  // console.log(`tour kortele`, tour);
 
   useEffect(() => {
     fetchComments(tour.tourid);

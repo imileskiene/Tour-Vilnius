@@ -31,6 +31,7 @@ export default function CategoriesMenu({ categories }) {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
+        // sx={{ marginRight: '300px' }}
       >
         Ekskursijos
       </Button>
